@@ -299,6 +299,8 @@ Up:
 	syscall
 	jal Clear
 	sub $t2, $t2, $s0
+	lw $t8, 0($t5)
+	teqi $t8, 1
 	j for_up
 	end_for_up:
 	li $t2, 4
@@ -314,6 +316,8 @@ Down:
 	syscall
 	jal Clear
 	add $t2, $t2, $s0
+	lw $t8, 0($t5)
+	teqi $t8, 1
 	j for_down
 	end_for_down:
 	li $t2, 507
@@ -329,6 +333,8 @@ Left:
 	syscall
 	jal Clear
 	sub $t1, $t1, $s0
+	lw $t8, 0($t5)
+	teqi $t8, 1
 	j for_left
 	end_for_left:
 	li $t1, 4
@@ -344,6 +350,8 @@ Right:
 	syscall
 	jal Clear
 	add $t1, $t1, $s0
+	lw $t8, 0($t5)
+	teqi $t8, 1
 	j for_right
 	end_for_right:
 	li $t1, 507
