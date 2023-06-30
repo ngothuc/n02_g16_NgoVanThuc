@@ -53,6 +53,8 @@ TryToDoSth:
 	beq $t0, 's', To_Down
 	beq $t0, 'a', To_Left
 	beq $t0, 'd', To_Right
+	beq $t0, 'z', To_Speed_Up
+	beq $t0, 'x', To_Speed_Down
 	To_Up:	
 		jal Up
 		j end_process
@@ -64,6 +66,12 @@ TryToDoSth:
 		j end_process
 	To_Right:
 		jal Right
+		j end_process
+	To_Speed_Up:
+		jal SpeedUp
+		j end_process
+	To_Speed_Down:
+		jal SpeedDown
 		j end_process
 	
 end_process:
@@ -291,11 +299,12 @@ Clear:
 	jr $ra
 	
 Up:
+	jal Clear
 	for_up:
 	ble $t2, 4, end_for_up
 	jal DrawCircle
 	li $v0, 32
-	li $a0, 300
+	li $a0, 100
 	syscall
 	jal Clear
 	sub $t2, $t2, $s0
@@ -308,11 +317,12 @@ Up:
 	jal Clear
 	j Down
 Down:
+	jal Clear
 	for_down:
 	bge $t2, 507, end_for_down
 	jal DrawCircle
 	li $v0, 32
-	li $a0, 300
+	li $a0, 100
 	syscall
 	jal Clear
 	add $t2, $t2, $s0
@@ -325,11 +335,12 @@ Down:
 	jal Clear
 	j Up
 Left:
+	jal Clear
 	for_left:
 	ble $t1, 4, end_for_left
 	jal DrawCircle
 	li $v0, 32
-	li $a0, 300
+	li $a0, 100
 	syscall
 	jal Clear
 	sub $t1, $t1, $s0
@@ -342,11 +353,12 @@ Left:
 	jal Clear
 	j Right
 Right:
+	jal Clear
 	for_right:
 	bge $t1, 507, end_for_right
 	jal DrawCircle
 	li $v0, 32
-	li $a0, 300
+	li $a0, 100
 	syscall
 	jal Clear
 	add $t1, $t1, $s0
@@ -358,6 +370,21 @@ Right:
 	jal DrawCircle
 	jal Clear
 	j Left
+SpeedUp:
+	addi $s0, $s0, 1
+	for_spu:
+		jal DrawCircle
+		lw $t8, 0($t5)
+		beq $t8, 0, for_spu
+		teqi $t8, 1
+	
+SpeedDown:
+	addi $s0, $s0, -1
+	for_spd:
+		jal DrawCircle
+		lw $t8, 0($t5)
+		beq $t8, 0, for_spd
+		teqi $t8, 1
 	
 
 	
