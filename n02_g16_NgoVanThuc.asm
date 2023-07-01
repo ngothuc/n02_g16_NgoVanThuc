@@ -192,12 +192,6 @@ DrawCircle:
 	
 Clear:
 	li $t0, BLACK
-	#Vẽ tâm
-	mul $t3, $t2, 512
-	add $t3, $t3, $t1
-	mul $t3, $t3, 4
-	add $k1, $k0, $t3
-	sw $t0, 0($k1)
 	
 	addi $s2, $t2, -4
 	addi $s1, $t1, -2
@@ -391,7 +385,9 @@ SpeedUp:
 	
 SpeedDown:
 	addi $s0, $s0, -1
+	bgez $s0, cnt
 	li $s0, 0
+	cnt:
 	beq $v1, 'w', Up
 	beq $v1, 's', Down
 	beq $v1, 'a', Left
