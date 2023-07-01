@@ -85,11 +85,11 @@ return:
 DrawCircle:
 	li $t0, YELLOW
 	#Vẽ tâm
-	mul $t3, $t2, 512
-	add $t3, $t3, $t1
-	mul $t3, $t3, 4
-	add $k1, $k0, $t3
-	sw $t0, 0($k1)
+	#mul $t3, $t2, 512
+	#add $t3, $t3, $t1
+	#mul $t3, $t3, 4
+	#add $k1, $k0, $t3
+	#sw $t0, 0($k1)
 	
 	addi $s2, $t2, -4
 	addi $s1, $t1, -2
@@ -300,6 +300,7 @@ Clear:
 	
 Up:
 	jal Clear
+	li $v1, 'w'
 	for_up:
 	ble $t2, 4, end_for_up
 	jal DrawCircle
@@ -316,8 +317,10 @@ Up:
 	jal DrawCircle
 	jal Clear
 	j Down
+	
 Down:
 	jal Clear
+	li $v1, 's'
 	for_down:
 	bge $t2, 507, end_for_down
 	jal DrawCircle
@@ -334,8 +337,10 @@ Down:
 	jal DrawCircle
 	jal Clear
 	j Up
+	
 Left:
 	jal Clear
+	li $v1, 'a'
 	for_left:
 	ble $t1, 4, end_for_left
 	jal DrawCircle
@@ -354,6 +359,7 @@ Left:
 	j Right
 Right:
 	jal Clear
+	li $v1, 'd'
 	for_right:
 	bge $t1, 507, end_for_right
 	jal DrawCircle
@@ -370,21 +376,31 @@ Right:
 	jal DrawCircle
 	jal Clear
 	j Left
+	
 SpeedUp:
 	addi $s0, $s0, 1
-	for_spu:
-		jal DrawCircle
-		lw $t8, 0($t5)
-		beq $t8, 0, for_spu
-		teqi $t8, 1
+	beq $v1, 'w', Up
+	beq $v1, 's', Down
+	beq $v1, 'a', Left
+	beq $v1, 'd', Right
+	#for_spu:
+	#	jal DrawCircle
+	#	lw $t8, 0($t5)
+	#	beq $t8, 0, for_spu
+	#	teqi $t8, 1
 	
 SpeedDown:
 	addi $s0, $s0, -1
-	for_spd:
-		jal DrawCircle
-		lw $t8, 0($t5)
-		beq $t8, 0, for_spd
-		teqi $t8, 1
+	li $s0, 0
+	beq $v1, 'w', Up
+	beq $v1, 's', Down
+	beq $v1, 'a', Left
+	beq $v1, 'd', Right
+	#for_spd:
+	#	jal DrawCircle
+	#	lw $t8, 0($t5)
+	#	beq $t8, 0, for_spd
+	#	teqi $t8, 1
 	
 
 	
